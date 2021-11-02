@@ -53,9 +53,9 @@ public class Main {
     private static void printAddress(FileSystemUnit fsu){
         FileSystemUnit current = fsu;
         String str = "";
-        str = str+"/"+current.getName();
+//        str = str+"/"+current.getName();
         while (current.getPrev() != null){
-            str = current.getPrev().getName() + str;
+            str = "/"+current.getName() +str;
             current = current.getPrev();
         }
         System.out.println(str);

@@ -2,6 +2,8 @@ package Adbistju.system;
 
 import Adbistju.system.models.ParamsModel;
 
+import java.util.regex.Matcher;
+
 public class Params {
     public static ParamsModel addParams(String[] args){
         ParamsModel paramsModel;
@@ -27,7 +29,7 @@ public class Params {
 
     private static String addParam(String param){
         char[] chars = param.toCharArray();
-        if(chars[0] == '‘'){
+        if(chars[0] == '‘'|| chars[0] == '`'){
             return constructParam(chars);
         }else{
             return constructParamFileName(chars);
@@ -39,6 +41,9 @@ public class Params {
         String param = "";
         for (int i = 1; i < chars.length-1; i++) {
             param = param+chars[i];
+        }
+        if (!param.matches(param)){
+            throw new IllegalArgumentException();
         }
         return param;
     }
