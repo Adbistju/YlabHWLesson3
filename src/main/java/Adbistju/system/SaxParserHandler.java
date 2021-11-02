@@ -34,7 +34,7 @@ public class SaxParserHandler extends DefaultHandler {
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         if(currentTagName.equals(child)){
-            currentFolder = currentFolder.getPrevious();
+            currentFolder = currentFolder.getPrev();
             currentIsFile = false;
         }
         currentTagName = qName;
@@ -54,7 +54,7 @@ public class SaxParserHandler extends DefaultHandler {
 
             if(currentTagName.equals(name) && f != null){
                 if(currentIsFile){
-                    currentFolder.addFile(new File(new String(ch, start, length)));
+                    currentFolder.addFile(new File(new String(ch, start, length), currentFolder));
                 }else{
                     FolderMy my = new FolderMy(new String(ch, start, length), currentFolder);
                     currentFolder.addFile(my);

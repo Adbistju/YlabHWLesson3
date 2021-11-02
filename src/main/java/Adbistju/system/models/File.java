@@ -1,8 +1,9 @@
 package Adbistju.system.models;
 
 public class File extends FileSystemUnit{
-    public File(String name) {
+    public File(String name, FolderMy folder) {
         this.name = name;
+        this.prev = folder;
     }
 
     @Override

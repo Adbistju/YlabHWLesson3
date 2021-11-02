@@ -1,17 +1,20 @@
 package Adbistju.system;
 
+
 import Adbistju.system.models.File;
 import Adbistju.system.models.FolderMy;
+import Adbistju.system.models.ParamsModel;
 
 import java.util.ArrayList;
 
 
 public class Main {
     public static void main(String[] args) {
-        String filePath = "D:\\!\\10.xml";
+        ParamsModel params = Params.addParams(args);
         SaxMyParser parser = new SaxMyParser();
-        FolderMy folder = parser.parse(filePath);
+        FolderMy folder = parser.parse(params.getFilePath());
 
+        seach(folder, params.getSearchParam());
 //        System.out.println(folder.toString());
 //        FolderMy folder = new FolderMy("/");
 //        File file1 = new File("1");
@@ -25,24 +28,25 @@ public class Main {
 //        folder2.addFile(file3);
 //        folder2.addFile(file4);
 //        folder2.setPrevious(folder);
-        System.out.println(folder);
 
-        seach(folder,"file-4a.xml");
-        seach(folder,"file-bb.xml");
+
+
+
     }
 
     public static void seach(FolderMy folderMy, String name){
-        if(folderMy.getName().equals(name)){
+//        StringBuilder stringBuilder = new StringBuilder();
+        if(folderMy.getName().matches(name)){
             System.out.println(folderMy);
         }
         ArrayList arrayList = (ArrayList) folderMy.getFile();
         for (int i = 0; i < arrayList.size(); i++) {
-            if(arrayList.get(i) instanceof File && ((File) arrayList.get(i)).getName().equals(name)){
+            if(arrayList.get(i) instanceof File && ((File) arrayList.get(i)).getName().matches(name)){
                 FolderMy iter = folderMy;
                 System.out.print(((File) arrayList.get(i)).getName()+"\\");
-                while (iter.getPrevious() != null){
+                while (iter.getPrev() != null){
                     System.out.print(iter.getName()+"\\");
-                    iter = iter.getPrevious();
+                    iter = iter.getPrev();
                 }
 //                System.out.println(folderMy.getPrevious().getName()+"\\"+folderMy.getName()+"\\"+arrayList.get(i));
                 System.out.println();
@@ -52,4 +56,26 @@ public class Main {
             }
         }
     }
+
+//    public static void seach(FolderMy folderMy, String name){
+//        if(folderMy.getName().equals(name)){
+//            System.out.println(folderMy);
+//        }
+//        ArrayList arrayList = (ArrayList) folderMy.getFile();
+//        for (int i = 0; i < arrayList.size(); i++) {
+//            if(arrayList.get(i) instanceof File && ((File) arrayList.get(i)).getName().equals(name)){
+//                FolderMy iter = folderMy;
+//                System.out.print(((File) arrayList.get(i)).getName()+"\\");
+//                while (iter.getPrev() != null){
+//                    System.out.print(iter.getName()+"\\");
+//                    iter = iter.getPrev();
+//                }
+////                System.out.println(folderMy.getPrevious().getName()+"\\"+folderMy.getName()+"\\"+arrayList.get(i));
+//                System.out.println();
+//                return;
+//            }else if(arrayList.get(i) instanceof FolderMy){
+//                seach((FolderMy) arrayList.get(i), name);
+//            }
+//        }
+//    }
 }
