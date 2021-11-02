@@ -1,20 +1,14 @@
 package Adbistju.system;
 
-import Adbistju.system.models.File;
-import Adbistju.system.models.FileSystemUnit;
 import Adbistju.system.models.FolderMy;
 import Adbistju.system.models.ParamsModel;
-
-import java.util.ArrayList;
-
 
 public class Main {
     public static void main(String[] args) {
         ParamsModel params = Params.addParams(args);
         SaxMyParser parser = new SaxMyParser();
         FolderMy folder = parser.parse(params.getFilePath());
-
-        seach(folder, params.getSearchParam());
+        Searcher.search(folder, params.getSearchParam());
 //        System.out.println(folder.toString());
 //        FolderMy folder = new FolderMy("/");
 //        File file1 = new File("1");
@@ -32,33 +26,6 @@ public class Main {
 
 
 
-    }
-
-    public static void seach(FolderMy folderMy, String name){
-        ArrayList arrayList = (ArrayList) folderMy.getFile();
-        for (int i = 0; i < arrayList.size(); i++) {
-            if(arrayList.get(i) instanceof File && ((File) arrayList.get(i)).getName().matches(name)){
-//                System.out.println(((File) arrayList.get(i)).getName());
-                printAddress((FileSystemUnit) arrayList.get(i));
-            }else if(arrayList.get(i) instanceof FolderMy){
-                if(((FolderMy) arrayList.get(i)).getName().matches(name)){
-//                    System.out.println(((FolderMy) arrayList.get(i)).getName());
-                    printAddress((FileSystemUnit) arrayList.get(i));
-                }
-                seach(((FolderMy) arrayList.get(i)), name);
-            }
-        }
-    }
-
-    private static void printAddress(FileSystemUnit fsu){
-        FileSystemUnit current = fsu;
-        String str = "";
-//        str = str+"/"+current.getName();
-        while (current.getPrev() != null){
-            str = "/"+current.getName() +str;
-            current = current.getPrev();
-        }
-        System.out.println(str);
     }
 
 //    public static void seach(FolderMy folderMy, String name){
