@@ -1,7 +1,7 @@
 package Adbistju.system;
 
-
 import Adbistju.system.models.File;
+import Adbistju.system.models.FileSystemUnit;
 import Adbistju.system.models.FolderMy;
 import Adbistju.system.models.ParamsModel;
 
@@ -35,26 +35,30 @@ public class Main {
     }
 
     public static void seach(FolderMy folderMy, String name){
-//        StringBuilder stringBuilder = new StringBuilder();
-        if(folderMy.getName().matches(name)){
-            System.out.println(folderMy);
-        }
         ArrayList arrayList = (ArrayList) folderMy.getFile();
         for (int i = 0; i < arrayList.size(); i++) {
             if(arrayList.get(i) instanceof File && ((File) arrayList.get(i)).getName().matches(name)){
-                FolderMy iter = folderMy;
-                System.out.print(((File) arrayList.get(i)).getName()+"\\");
-                while (iter.getPrev() != null){
-                    System.out.print(iter.getName()+"\\");
-                    iter = iter.getPrev();
-                }
-//                System.out.println(folderMy.getPrevious().getName()+"\\"+folderMy.getName()+"\\"+arrayList.get(i));
-                System.out.println();
-                return;
+//                System.out.println(((File) arrayList.get(i)).getName());
+                printAddress((FileSystemUnit) arrayList.get(i));
             }else if(arrayList.get(i) instanceof FolderMy){
-                seach((FolderMy) arrayList.get(i), name);
+                if(((FolderMy) arrayList.get(i)).getName().matches(name)){
+//                    System.out.println(((FolderMy) arrayList.get(i)).getName());
+                    printAddress((FileSystemUnit) arrayList.get(i));
+                }
+                seach(((FolderMy) arrayList.get(i)), name);
             }
         }
+    }
+
+    private static void printAddress(FileSystemUnit fsu){
+        FileSystemUnit current = fsu;
+        String str = "";
+        str = str+"/"+current.getName();
+        while (current.getPrev() != null){
+            str = current.getPrev().getName() + str;
+            current = current.getPrev();
+        }
+        System.out.println(str);
     }
 
 //    public static void seach(FolderMy folderMy, String name){

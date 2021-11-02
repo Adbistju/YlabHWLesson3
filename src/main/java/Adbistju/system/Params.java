@@ -13,7 +13,8 @@ public class Params {
         for (int i = 0; i < args.length; i++) {
             if(args[i].equals("-f") && paramsModel != null){
                 paramsModel.setFilePath(addFile(args[i+1]));
-            }else if(args[i].equals("-s")&& i+1 <= args.length && paramsModel != null){
+                paramsModel.setSearchParam(addParam("*"));
+            }else if(args[i].equals("-s")&& i+1 <= args.length && paramsModel != null && args.length >=4){
                 paramsModel.setSearchParam(addParam(args[i+1]));
             }
         }
@@ -46,7 +47,7 @@ public class Params {
         String param = "";
         for (int i = 0; i < chars.length; i++) {
             if(chars[i] == '*'){
-                param = param + "(\\W|\\w)*";
+                param = param + "(\\W|\\w|\\d|\\D)*";
             }else{
                 param = param+chars[i];
             }
