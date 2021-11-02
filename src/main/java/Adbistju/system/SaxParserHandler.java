@@ -8,6 +8,10 @@ import org.xml.sax.helpers.DefaultHandler;
 
 
 public class SaxParserHandler extends DefaultHandler {
+    private static String child = "child";
+    private static String isFile = "is-file";
+    private static String name = "name";
+
     private boolean currentIsFile = false;
     private FolderMy currentFolder;
 
@@ -22,18 +26,15 @@ public class SaxParserHandler extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         currentTagName = qName;
-
-        if(currentTagName.equals("child")){
-            currentIsFile = Boolean.parseBoolean(attributes.getValue("is-file"));
+        if(currentTagName.equals(child)){
+            currentIsFile = Boolean.parseBoolean(attributes.getValue(isFile));
         }
     }
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
-        if(currentTagName.equals("child")){
+        if(currentTagName.equals(child)){
             currentFolder = currentFolder.getPrevious();
-        }
-        if(currentTagName.equals("child")){
             currentIsFile = false;
         }
         currentTagName = qName;
@@ -51,7 +52,7 @@ public class SaxParserHandler extends DefaultHandler {
                 return;
             }
 
-            if(currentTagName.equals("name") && f != null){
+            if(currentTagName.equals(name) && f != null){
                 if(currentIsFile){
                     currentFolder.addFile(new File(new String(ch, start, length)));
                 }else{
@@ -61,6 +62,5 @@ public class SaxParserHandler extends DefaultHandler {
                 }
             }
         }
-
     }
 }

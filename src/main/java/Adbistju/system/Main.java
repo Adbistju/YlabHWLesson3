@@ -28,6 +28,7 @@ public class Main {
         System.out.println(folder);
 
         seach(folder,"file-4a.xml");
+        seach(folder,"file-bb.xml");
     }
 
     public static void seach(FolderMy folderMy, String name){
@@ -37,7 +38,14 @@ public class Main {
         ArrayList arrayList = (ArrayList) folderMy.getFile();
         for (int i = 0; i < arrayList.size(); i++) {
             if(arrayList.get(i) instanceof File && ((File) arrayList.get(i)).getName().equals(name)){
-                System.out.println(folderMy.getPrevious().getName()+"\\"+folderMy.getName()+"\\"+arrayList.get(i));
+                FolderMy iter = folderMy;
+                System.out.print(((File) arrayList.get(i)).getName()+"\\");
+                while (iter.getPrevious() != null){
+                    System.out.print(iter.getName()+"\\");
+                    iter = iter.getPrevious();
+                }
+//                System.out.println(folderMy.getPrevious().getName()+"\\"+folderMy.getName()+"\\"+arrayList.get(i));
+                System.out.println();
                 return;
             }else if(arrayList.get(i) instanceof FolderMy){
                 seach((FolderMy) arrayList.get(i), name);
