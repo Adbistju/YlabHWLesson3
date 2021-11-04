@@ -1,6 +1,6 @@
 package Adbistju.system;
 
-import Adbistju.system.comarator.Comparator;
+import Adbistju.system.comparator.Comparator;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 

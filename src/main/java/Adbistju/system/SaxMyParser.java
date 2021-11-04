@@ -1,8 +1,8 @@
 package Adbistju.system;
 
 
-import Adbistju.system.comarator.Comparator;
-import Adbistju.system.comarator.FabricComparator;
+import Adbistju.system.comparator.Comparator;
+import Adbistju.system.comparator.FabricComparator;
 import Adbistju.system.exception.ArgumentException;
 import org.xml.sax.SAXException;
 
