@@ -1,66 +1,69 @@
 package Adbistju.system;
 
-import Adbistju.system.models.File;
-import Adbistju.system.models.FolderMy;
+import Adbistju.system.comarator.Comparator;
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.util.ArrayList;
 
 public class SaxParserHandler extends DefaultHandler {
-    private static String child = "child";
-    private static String isFile = "is-file";
-    private static String name = "name";
+    private static ArrayList<String> address = new ArrayList<>();
 
     private boolean currentIsFile = false;
-    private FolderMy currentFolder;
-
     private String currentTagName;
 
-    FolderMy f;
+    private Comparator comparator;
 
-    public FolderMy getRot() {
-        return f;
+    public SaxParserHandler(Comparator comparator) {
+        this.comparator = comparator;
     }
 
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+    public void startElement(String uri, String localName, String qName, Attributes attributes) {
         currentTagName = qName;
-        if(currentTagName.equals(child)){
-            currentIsFile = Boolean.parseBoolean(attributes.getValue(isFile));
+        if(currentTagName.equals(Constant.child)){
+            currentIsFile = Boolean.parseBoolean(attributes.getValue(Constant.isFile));
         }
     }
 
     @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException {
-        if(currentTagName.equals(child)){
-            currentFolder = currentFolder.getPrev();
+    public void endElement(String uri, String localName, String qName) {
+        if(currentTagName.equals(Constant.child)){
             currentIsFile = false;
+            address.remove(address.size()-1);
         }
         currentTagName = qName;
     }
 
     @Override
-    public void characters(char[] ch, int start, int length) throws SAXException {
+    public void characters(char[] ch, int start, int length) {
         if (currentTagName == null) {
             return;
         }
         if (!new String(ch, start, length).isBlank()) {
-            if(f == null){
-                f = new FolderMy(new String(ch, start, length));
-                currentFolder = f;
-                return;
-            }
-
-            if(currentTagName.equals(name) && f != null){
-                if(currentIsFile){
-                    currentFolder.addFile(new File(new String(ch, start, length), currentFolder));
-                }else{
-                    FolderMy my = new FolderMy(new String(ch, start, length), currentFolder);
-                    currentFolder.addFile(my);
-                    currentFolder = my;
+            if(address.size() == 0){
+                if (new String(ch, start, length).equals(Constant.delimiter)){
+                    address.add("");
+                }else {
+                    address.add(new String(ch, start, length));
+                }
+            }else if(currentTagName.equals(Constant.name)){
+                if(currentIsFile && comparator.check(new String(ch, start, length))){
+                    print(new String(ch, start, length));
+                }else if(!currentIsFile && comparator.check(new String(ch, start, length))){
+                    print(new String(ch, start, length));
+                    address.add(new String(ch, start, length));
+                }else if(!currentIsFile){
+                    address.add(new String(ch, start, length));
                 }
             }
         }
+    }
+
+    private void print(String str){
+        for (int i = 0; i < address.size(); i++) {
+            System.out.print(address.get(i)+Constant.delimiter);
+        }
+        System.out.println(str);
     }
 }
