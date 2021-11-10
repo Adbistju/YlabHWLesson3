@@ -32,13 +32,13 @@ public class SaxMyParser {
         }
     }
 
-    public SaxMyParser setFilePath(String[] args) {
-        this.filePath = new ParserFilePathArg().addParams(args);
+    public SaxMyParser setFilePath(String filePath) {
+        this.filePath = filePath;
         return this;
     }
 
-    public SaxMyParser setComparator(String[] args) {
-        this.comparator = new FabricComparator().FabricComparator(args);
+    public SaxMyParser setComparator(Comparator comparator) {
+        this.comparator = comparator;
         return this;
     }
 }
