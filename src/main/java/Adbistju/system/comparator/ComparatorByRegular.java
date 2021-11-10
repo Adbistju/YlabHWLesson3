@@ -1,4 +1,4 @@
-package Adbistju.system.comarator;
+package Adbistju.system.comparator;
 
 public class ComparatorByRegular extends Comparator{
 

@@ -1,4 +1,4 @@
-package Adbistju.system.comarator;
+package Adbistju.system.comparator;
 
 import Adbistju.system.Constant;
 import Adbistju.system.exception.ArgumentException;
