@@ -1,5 +1,7 @@
 package Adbistju.system.comparator;
 
+import java.util.regex.Pattern;
+
 public class ComparatorByRegular extends Comparator{
 
     private String param;
